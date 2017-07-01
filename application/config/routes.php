@@ -60,6 +60,13 @@ $route['moments'] = 'Home/moments';
 $route['contact'] = 'Home/contact';
 /*_______ public route End _______*/
 
+/*_______ admin route start _______*/
+
+$route['admin'] = 'Dashboard';
+
+$route['admin/gallery'] = 'Dashboard/gallery';
+
+/*_______ admin route end _______*/
 
 
 $route['404_override'] = '';
