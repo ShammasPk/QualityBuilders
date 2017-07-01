@@ -65,6 +65,9 @@ $route['contact'] = 'Home/contact';
 $route['admin'] = 'Dashboard';
 
 $route['admin/gallery'] = 'Dashboard/gallery';
+$route['admin/gallery/upload'] = 'gallery_Controller/upload';
+$route['admin/gallery/get']['get'] = 'gallery_Controller/get_all';
+$route['admin/gallery/add'] = 'gallery_Controller/store';
 
 /*_______ admin route end _______*/
 

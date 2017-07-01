@@ -1,0 +1,21 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: psybo-03
+ * Date: 1/7/17
+ * Time: 3:10 PM
+ */
+
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class File_model extends MY_Model
+{
+
+    protected $belongs_to = ['gallery'];
+
+    function __construct()
+    {
+        parent::__construct();
+        $this->timestamps = false;
+    }
+}

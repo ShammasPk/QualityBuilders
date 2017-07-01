@@ -20,11 +20,11 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-10">
-                            <form class="form-horizontal" method="POST" ng-submit="addGallery()" >
+                            <form class="form-horizontal" method="POST" ng-submit="addGallery()" id="formgal">
                                 <div class="form-group">
                                     <label for="" class="control-label col-lg-2">Name</label>
                                     <div class="col-lg-6">
-                                        <input type="text" name="name" class="form-control" ng-model="newgallery.gallery_name" required=""/>
+                                        <input type="text" name="name" class="form-control" ng-model="newgallery.name" required=""/>
                                     </div>
                                 </div>
                                 <div class="form-group">
