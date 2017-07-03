@@ -315,6 +315,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
 
     function loadGallery() {
         $http.get($rootScope.base_url + 'admin/gallery/get').then(function (response) {
+            console.log(response.data);
             if (response.data) {
                 $scope.galleries = response.data;
                 $scope.showtable = true;
@@ -342,7 +343,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         $scope.showform = true;
         $scope.curgallery = item;
         $scope.newgallery = angular.copy(item);
-        $scope.item_files = item.files;
+        $scope.item_files = item.file;
     };
 
     $scope.hideForm = function () {
@@ -368,8 +369,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
                 headers: {'Content-Type': undefined, 'Process-Data': false}
             })
                 .then(function onSuccess(response) {
-                    //$scope.galleries.push(response.data);
-                    //loadGallery();
+                    loadGallery();
                     $scope.newgallery = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
@@ -387,8 +387,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
                 headers: {'Content-Type': undefined, 'Process-Data': false}
             })
                 .then(function onSuccess(response) {
-                    //$scope.galleries.push(response.data);
-                    //loadGallery();
+                    loadGallery();
                     $scope.newgallery = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
@@ -409,6 +408,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
     };
 
     $scope.deleteGallery = function (item) {
+        console.log(item);
         $rootScope.loading = true;
         var url = $rootScope.base_url + 'admin/gallery/delete/' + item['id'];
         $http.delete(url)
@@ -459,10 +459,8 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         $http.delete(url)
             .then(function onSuccess(response) {
                 console.log('image deleted');
-                /*remove deleted file from scope variable*/
-                var index = $scope.item_files.indexOf(item);
-                $scope.item_files.splice(index, 1);
-
+                $scope.item_files = '';
+                loadGallery();
                 $rootScope.loading = false;
             },function onError(response) {
                 console.log('Delete Error :- Status :' + response.status + 'data : ' + response.data);

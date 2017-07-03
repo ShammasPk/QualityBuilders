@@ -98,15 +98,15 @@
                                             Images<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
                                         </uib-accordion-heading>
                                         <div class="row">
-                                            <div class="col-md-2" ng-repeat="(key,preview) in item_files">
+                                            <div class="col-md-2">
                                                 <div class="thumbnail cus-thumb" ng-mouseover="showcaption=true" ng-mouseleave="showcaption=false" style="max-height: 142px;">
                                                     <div class="caption" ng-show="showcaption">
                                                         <div id="content">
                                                             <a href="" class="label label-warning" rel="tooltip" title="Show">Show</a>
-                                                            <a href="" class="label label-danger" rel="tooltip" title="Delete" confirmed-click="deleteImage(preview)" ng-confirm-click="Would you like to delete this item?!">Delete</a>
+                                                            <a href="" class="label label-danger" rel="tooltip" title="Delete" confirmed-click="deleteImage(item_files)" ng-confirm-click="Would you like to delete this item?!">Delete</a>
                                                         </div>
                                                     </div>
-                                                    <img src="{{preview.thumbImgUrl}}" alt="thumbnails">
+                                                    <img src="{{base_url+'uploads/'+item_files.file_name}}" alt="thumbnails">
                                                 </div>
                                             </div>
                                         </div>
@@ -135,14 +135,15 @@
         <div class="col-lg-3" dir-paginate="gallery in galleries | filter:serach | limitTo:pageSize | itemsPerPage:numPerPage">
             <div class="cuadro_intro_hover thumbnail" style="background-color:#cccccc;">
                 <p style="text-align:center;">
-                    <img class="img-responsive" style="cursor:pointer;" src="{{gallery.files[0].thumbImgUrl}}" alt="{{gallery.name}}" />
+                    <img class="img-responsive" style="cursor:pointer;" src="{{base_url+'uploads/'+gallery.file.file_name}}" alt="{{gallery.name}}" />
                 </p>
                 <div class="caption">
                     <div class="blur"></div>
                     <div class="caption-text">
                         <h3 style="border-top:2px solid white; border-bottom:2px solid white; padding:10px;">{{gallery.name}}</h3>
                         <p>{{gallery.description}}</p>
-                        <button type="button" style="color: initial;" class="btn btn-default" ng-click="open(gallery)">Open</button>
+<!--                        <button type="button" style="color: initial;" class="btn btn-default" ng-click="open(gallery)">Open</button>-->
+                        <a href="{{base_url+'uploads/'+gallery.file.file_name}}" style="color: initial;" class="btn btn-default">Open</a>
                         <button type="button" style="color: initial;" class="btn btn-default" ng-click="showForm(gallery)">edit</button>
                         <button type="button" style="color: initial;" class="btn btn-default" confirmed-click="deleteGallery(gallery)" ng-confirm-click="Would you like to delete this item?!">delete</button>
                     </div>
@@ -151,27 +152,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="myModalContent.html">
-    <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">{{galleryfiles.gallery_name}}</h3>
-    </div>
-    <div class="modal-body" id="modal-body">
-        <div class="row">
-            <div class="col-md-2" ng-repeat="file in items.files">
-                <div class="thumbnail img-responsive" style="min-height: 50px">
-                    <a href="{{file.imgUrl}}">
-                        <img src="{{file.thumbImgUrl}}" alt="{{file.file_name}}"/>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-    </div>
-</script>
 
 <div id="loading" ng-show="loading">
     <div id="loading-image">

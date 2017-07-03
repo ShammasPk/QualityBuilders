@@ -67,7 +67,10 @@ $route['admin'] = 'Dashboard';
 $route['admin/gallery'] = 'Dashboard/gallery';
 $route['admin/gallery/upload'] = 'gallery_Controller/upload';
 $route['admin/gallery/get']['get'] = 'gallery_Controller/get_all';
-$route['admin/gallery/add'] = 'gallery_Controller/store';
+$route['admin/gallery/add']['post'] = 'gallery_Controller/store';
+$route['admin/gallery/edit/(:num)']['post'] = 'gallery_Controller/update/$1';
+$route['admin/gallery/delete-image/(:num)']['delete'] = 'gallery_Controller/delete_image/$1';
+$route['admin/gallery/delete/(:num)']['delete'] = 'gallery_Controller/delete/$1';
 
 /*_______ admin route end _______*/
 
