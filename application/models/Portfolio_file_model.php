@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class portfolio_file_model extends MY_Model
 {
-    public $table = 'portfolio_files';
+//    public $table = 'portfolio_files';
     public $primary_key = 'id';
 
     public function __construct()
@@ -20,15 +20,15 @@ class portfolio_file_model extends MY_Model
         $this->timestamps = FALSE;
     }
 
-    public function select()
+    public function select($limit="", $order="")
     {
         $this->db->from('portfolios');
-//        if ($limit != null) {
-//            $this->db->limit($limit);
-//        }
-//        if ($order != null) {
-//            $this->db->order_by('id', 'DESC');
-//        }
+        if ($limit != null) {
+            $this->db->limit($limit);
+        }
+        if ($order != null) {
+            $this->db->order_by('id', 'DESC');
+        }
         $query = $this->db->get();
         if ($query->num_rows() > 0) {
             $portfolio = $query->result();

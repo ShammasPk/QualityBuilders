@@ -16,6 +16,8 @@ class Home extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        $this->load->model('Portfolio_model', 'portfolio');
+        $this->load->model('Portfolio_file_model', 'portfolio_file');
     }
 
 
@@ -36,8 +38,9 @@ class Home extends CI_Controller
 
     public function portfolio($page = 'portfolio')
     {
+        $data['portfolio'] = $this->_load_portfolio();
         $this->load->view($this->header,['current' => 'Portfolio']);
-        $this->load->view($page);
+        $this->load->view($page, $data);
         $this->load->view($this->footer);
     }
 
@@ -60,6 +63,11 @@ class Home extends CI_Controller
         $this->load->view($this->header,['current' => 'Contact Us']);
         $this->load->view($page);
         $this->load->view($this->footer);
+    }
+
+    function _load_portfolio($limit="")
+    {
+        return $this->portfolio_file->select($limit);
     }
 
 }
