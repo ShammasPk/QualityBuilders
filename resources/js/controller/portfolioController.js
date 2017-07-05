@@ -1,15 +1,13 @@
 /**
- * Created by psybo-03 on 1/7/17.
- */
-/**
- * Created by psybo-03 on 15/5/17.
+ * Created by psybo-03 on 5/7/17.
  */
 
-app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location', 'Upload', '$timeout', '$filter', '$uibModal', '$log', '$document', function ($scope, $http, $rootScope, $location, Upload, $timeout, $filter, $uibModal, $log, $document) {
 
-    $scope.galleries = [];
-    $scope.newgallery = {};
-    $scope.curgallery = {};
+app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$location', 'Upload', '$timeout', '$filter', '$uibModal', '$log', '$document', function ($scope, $http, $rootScope, $location, Upload, $timeout, $filter, $uibModal, $log, $document) {
+
+    $scope.portfolios = [];
+    $scope.newportfolio = {};
+    $scope.curportfolio = {};
     $scope.files = [];
     $scope.errFiles = [];
     $scope.showform = false;
@@ -19,13 +17,13 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
     $scope.fileValidation = {};
 
 
-    loadGallery();
+    loadPortfolio();
 
-    function loadGallery() {
-        $http.get($rootScope.base_url + 'admin/gallery/get').then(function (response) {
+    function loadPortfolio() {
+        $http.get($rootScope.base_url + 'admin/portfolio/get').then(function (response) {
             console.log(response.data);
             if (response.data) {
-                $scope.galleries = response.data;
+                $scope.portfolios = response.data;
                 $scope.showtable = true;
             } else {
                 console.log('No data Found');
@@ -36,8 +34,8 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
     }
 
 
-    $scope.newGallery = function () {
-        $scope.newgallery = {};
+    $scope.newPortfolio = function () {
+        $scope.newportfolio = {};
         $scope.filespre = [];
         $scope.uploaded = [];
         $scope.files = [];
@@ -46,11 +44,11 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         $scope.item_files = false;
     };
 
-    $scope.showForm = function (item) {
+    $scope.editPortfolio = function (item) {
         console.log(item);
         $scope.showform = true;
-        $scope.curgallery = item;
-        $scope.newgallery = angular.copy(item);
+        $scope.curportfolio = item;
+        $scope.newportfolio = angular.copy(item);
         $scope.item_files = item.file;
         $scope.files = [];
     };
@@ -60,26 +58,26 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         $scope.showform = false;
     };
 
-    $scope.addGallery = function () {
+    $scope.addPortfolio = function () {
         $rootScope.loading = true;
 
         var fd = new FormData();
 
-        angular.forEach($scope.newgallery, function (item, key) {
+        angular.forEach($scope.newportfolio, function (item, key) {
             fd.append(key, item);
         });
 
         fd.append('uploaded', JSON.stringify($scope.uploaded));
 
-        if ($scope.newgallery['id']) {
-            var url = $rootScope.base_url + 'admin/gallery/edit/' + $scope.newgallery.id;
+        if ($scope.newportfolio['id']) {
+            var url = $rootScope.base_url + 'admin/portfolio/edit/' + $scope.newportfolio.id;
             $http.post(url, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined, 'Process-Data': false}
             })
                 .then(function onSuccess(response) {
-                    loadGallery();
-                    $scope.newgallery = {};
+                    loadPortfolio();
+                    $scope.newportfolio = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
                     $scope.files = '';
@@ -89,15 +87,15 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
                     $scope.files = '';
                 });
         } else {
-            var url = $rootScope.base_url + 'admin/gallery/add';
+            var url = $rootScope.base_url + 'admin/portfolio/add';
 
             $http.post(url, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined, 'Process-Data': false}
             })
                 .then(function onSuccess(response) {
-                    loadGallery();
-                    $scope.newgallery = {};
+                    loadPortfolio();
+                    $scope.newportfolio = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
                     $scope.files = '';
@@ -116,16 +114,16 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         }
     };
 
-    $scope.deleteGallery = function (item) {
+    $scope.deletePortfolio = function (item) {
         console.log(item);
         $rootScope.loading = true;
-        var url = $rootScope.base_url + 'admin/gallery/delete/' + item['id'];
+        var url = $rootScope.base_url + 'admin/portfolio/delete/' + item['id'];
         $http.delete(url)
             .then(function onSuccess(response) {
-                var index = $scope.galleries.indexOf(item);
-                $scope.galleries.splice(index, 1);
+                var index = $scope.portfolios.indexOf(item);
+                $scope.portfolios.splice(index, 1);
                 alert(response.data.msg);
-                loadGallery();
+                loadPortfolio();
                 $rootScope.loading = false;
             },function onError(response) {
                 console.log('Delete Error :- Status :' + response.status + 'data : ' + response.data);
@@ -142,7 +140,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
         angular.forEach(files, function (file) {
             $scope.files.push(file);
             file.upload = Upload.upload({
-                url: $rootScope.base_url + 'admin/gallery/upload',
+                url: $rootScope.base_url + 'admin/portfolio/upload',
                 data: {file: file}
             });
 
@@ -164,12 +162,13 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
     $scope.deleteImage =function(item) {
 
         $rootScope.loading = true;
-        var url = $rootScope.base_url + 'admin/gallery/delete-image/' + item['id'];
+        var url = $rootScope.base_url + 'admin/portfolio/delete-image/' + item['id'];
         $http.delete(url)
             .then(function onSuccess(response) {
-                console.log('image deleted');
-                $scope.item_files = '';
-                loadGallery();
+                /*remove deleted file from scope variable*/
+                var index = $scope.item_files.indexOf(item);
+                $scope.item_files.splice(index, 1);
+
                 $rootScope.loading = false;
             },function onError(response) {
                 console.log('Delete Error :- Status :' + response.status + 'data : ' + response.data);
@@ -178,9 +177,9 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
             });
     };
 
-    $scope.showGalleryFiles = function (item) {
+    $scope.showPortfolioFiles = function (item) {
         console.log(item);
-        $scope.galleryfiles = item;
+        $scope.portfoliofiles = item;
     };
 
 
@@ -189,7 +188,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
 
     $scope.animationsEnabled = true;
 
-    $scope.open = function (gallery,size, parentSelector) {
+    $scope.open = function (portfolio,size, parentSelector) {
         var parentElem = parentSelector ?
             angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
         var modalInstance = $uibModal.open({
@@ -203,7 +202,7 @@ app.controller('galleryController', ['$scope', '$http', '$rootScope', '$location
             appendTo: parentElem,
             resolve: {
                 items: function () {
-                    return gallery;
+                    return portfolio;
                 }
             }
         });

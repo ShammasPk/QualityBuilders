@@ -8,7 +8,7 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class MIgration_initial_schema extends CI_Migration
+class Migration_initial_schema extends CI_Migration
 {
     public function up()
     {

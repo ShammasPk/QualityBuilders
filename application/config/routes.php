@@ -72,6 +72,14 @@ $route['admin/gallery/edit/(:num)']['post'] = 'gallery_Controller/update/$1';
 $route['admin/gallery/delete-image/(:num)']['delete'] = 'gallery_Controller/delete_image/$1';
 $route['admin/gallery/delete/(:num)']['delete'] = 'gallery_Controller/delete/$1';
 
+$route['admin/portfolio'] = 'Dashboard/portfolio';
+$route['admin/portfolio/upload'] = 'portfolio_Controller/upload';
+$route['admin/portfolio/get']['get'] = 'portfolio_Controller/get_all';
+$route['admin/portfolio/add']['post'] = 'portfolio_Controller/store';
+$route['admin/portfolio/edit/(:num)']['post'] = 'portfolio_Controller/update/$1';
+$route['admin/portfolio/delete-image/(:num)']['delete'] = 'portfolio_Controller/delete_image/$1';
+$route['admin/portfolio/delete/(:num)']['delete'] = 'portfolio_Controller/delete/$1';
+
 /*_______ admin route end _______*/
 
 

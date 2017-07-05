@@ -2,22 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: psybo-03
- * Date: 1/7/17
- * Time: 2:59 PM
+ * Date: 5/7/17
+ * Time: 10:44 AM
  */
+
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once(APPPATH . 'core/Check_Logged.php');
 
-class Gallery_Controller extends Check_Logged
+class Portfolio_Controller extends Check_Logged
 {
 
     //        public $delete_cache_on_save = TRUE;
     function __construct()
     {
         parent::__construct();
-        $this->load->model('Gallery_model', 'gallery');
-//        $this->load->model('Gallery_Files_Model', 'gallery_files');
+        $this->load->model('Portfolio_model', 'portfolio');
+        $this->load->model('Portfolio_file_model', 'portfolio_file');
         $this->load->model('File_model', 'file');
 
         $this->load->library(['upload', 'image_lib']);
@@ -30,15 +31,16 @@ class Gallery_Controller extends Check_Logged
 
     function index()
     {
-        $data = $this->gallery->with_file()->get_all();
+        $data = $this->portfolio_file->select();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     function get_all()
     {
-        $data = $this->gallery->with_file()->get_all();
+        $data = $this->portfolio_file->select();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
+
 
     function store()
     {
@@ -49,46 +51,29 @@ class Gallery_Controller extends Check_Logged
         } else {
             $post_data = $this->input->post();
             $uploaded = json_decode($post_data['uploaded']);
-
             unset($post_data['uploaded']);
 
-            if (!empty($uploaded) ) {
-                /*INSERT FILE DATA TO DB*/
-                foreach ($uploaded as $value) {
-                    $file_data['file_name'] = $value->file_name;
-                    $file_data['file_type'] = $value->file_type;
-                    $file_data['size'] = $value->file_size;
-                    $file_data['date'] = date('Y-m-d');
-                    $file_id = $this->file->insert($file_data);
+            $portfolio_id = $this->portfolio->insert($post_data);
 
-                    $post_data['file_id'] = $file_id;
+            if ($portfolio_id) {
+                if (!empty($uploaded) ) {
+                    /*INSERT FILE DATA TO DB*/
+                    foreach ($uploaded as $value) {
+                        $file_data['file_name'] = $value->file_name;
+                        $file_data['file_type'] = $value->file_type;
+                        $file_data['size'] = $value->file_size;
+                        $file_data['date'] = date('Y-m-d');
+                        $file_id = $this->file->insert($file_data);
 
-                    $gallery_id = $this->gallery->insert($post_data);
+                        $portfolio_file_data['portfolio_id'] = $portfolio_id;
+                        $portfolio_file_data['file_id'] = $file_id;
 
-                    if ($gallery_id) {
-                        /*****Create Thumb Image****/
-                        $img_cfg['source_image'] = getwdir() . 'uploads/' . $value->file_name;
-                        $img_cfg['maintain_ratio'] = TRUE;
-                        $img_cfg['new_image'] = getwdir() . 'uploads/thumb/thumb_' . $value->file_name;
-                        $img_cfg['quality'] = 99;
-                        $img_cfg['master_dim'] = 'height';
-
-                        $this->image_lib->initialize($img_cfg);
-                        if (!$this->image_lib->resize()) {
-                            $resize_error[] = $this->image_lib->display_errors();
-                        }
-                        $this->image_lib->clear();
-
-                        /********End Thumb*********/
-
-                        /*resize and create thumbnail image*/
-                        if ($value->file_size > 1024) {
-                            $img_cfg['image_library'] = 'gd2';
+                        if ($this->portfolio_file->insert($portfolio_file_data)) {
+                            /*****Create Thumb Image****/
                             $img_cfg['source_image'] = getwdir() . 'uploads/' . $value->file_name;
                             $img_cfg['maintain_ratio'] = TRUE;
-                            $img_cfg['new_image'] = getwdir() . 'uploads/' . $value->file_name;
-                            $img_cfg['height'] = 500;
-                            $img_cfg['quality'] = 100;
+                            $img_cfg['new_image'] = getwdir() . 'uploads/thumb/thumb_' . $value->file_name;
+                            $img_cfg['quality'] = 99;
                             $img_cfg['master_dim'] = 'height';
 
                             $this->image_lib->initialize($img_cfg);
@@ -97,21 +82,45 @@ class Gallery_Controller extends Check_Logged
                             }
                             $this->image_lib->clear();
 
-                            /********End resize*********/
+                            /********End Thumb*********/
+
+                            /*resize and create thumbnail image*/
+                            if ($value->file_size > 1024) {
+                                $img_cfg['image_library'] = 'gd2';
+                                $img_cfg['source_image'] = getwdir() . 'uploads/' . $value->file_name;
+                                $img_cfg['maintain_ratio'] = TRUE;
+                                $img_cfg['new_image'] = getwdir() . 'uploads/' . $value->file_name;
+                                $img_cfg['height'] = 500;
+                                $img_cfg['quality'] = 100;
+                                $img_cfg['master_dim'] = 'height';
+
+                                $this->image_lib->initialize($img_cfg);
+                                if (!$this->image_lib->resize()) {
+                                    $resize_error[] = $this->image_lib->display_errors();
+                                }
+                                $this->image_lib->clear();
+
+                                /********End resize*********/
+                            }
+                        } else {
+                            $this->output->set_status_header(400, 'Server Down');
+                            $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 'Something went wrong']));
+                        }
+                        $resize_error = [];
+                        if (empty($resize_error)) {
+                            $this->output->set_content_type('application/json')->set_output(json_encode($post_data));
+                        } else {
+//                            $this->output->set_status_header(402, 'Server Down');
+                            $this->output->set_content_type('application/json')->set_output(json_encode($resize_error));
                         }
                     }
-                    $resize_error = [];
-                    if (empty($resize_error)) {
-                        $this->output->set_content_type('application/json')->set_output(json_encode($post_data));
-                    } else {
-//                            $this->output->set_status_header(402, 'Server Down');
-                        $this->output->set_content_type('application/json')->set_output(json_encode($resize_error));
-                    }
+                } else {
+                    $this->output->set_status_header(400, 'Validation Error');
+                    $this->output->set_content_type('application/json')->set_output(json_encode(['validation_error' => 'Please select images.']));
                 }
-            } else {
-                $this->output->set_status_header(400, 'Validation Error');
-                $this->output->set_content_type('application/json')->set_output(json_encode(['validation_error' => 'Please select images.']));
+
             }
+
         }
     }
 
@@ -126,7 +135,9 @@ class Gallery_Controller extends Check_Logged
 
             unset($post_data['uploaded']);
             unset($post_data['file']);
-
+//            var_dump($this->portfolio->update($post_data, $id));
+//            exit;
+            if ($this->portfolio->update($post_data,$id) === 0) {
                 if (!empty($uploaded)) {
                     /*INSERT FILE DATA TO DB*/
                     foreach ($uploaded as $value) {
@@ -136,9 +147,10 @@ class Gallery_Controller extends Check_Logged
                         $file_data['date'] = $this->input->post('date');
                         $file_id = $this->file->insert($file_data);
 
-                        $post_data['file_id'] = $file_id;
+                        $portfolio_file_data['portfolio_id'] = $id;
+                        $portfolio_file_data['file_id'] = $file_id;
 
-                        if ($this->gallery->update($post_data,$id)) {
+                        if ($this->portfolio_file->insert($portfolio_file_data)) {
                             /*****Create Thumb Image****/
                             $img_cfg['source_image'] = getwdir() . 'uploads/' . $value->file_name;
                             $img_cfg['maintain_ratio'] = TRUE;
@@ -180,11 +192,13 @@ class Gallery_Controller extends Check_Logged
                             $this->output->set_content_type('application/json')->set_output(json_encode($resize_error));
                         }
                     }
-                } elseif($this->gallery->update($post_data,$id)) {
-                    $this->output->set_content_type('application/json')->set_output(json_encode($post_data));
                 }else {
-                $this->output->set_status_header(500, 'Server Down');
-                $this->output->set_content_type('application/json')->set_output(json_encode(['validation_error' => 'Please select images.']));
+                    $this->portfolio->update($post_data, $id);
+                    $this->output->set_content_type('application/json')->set_output(json_encode($post_data));
+                }
+            }else{
+                $this->output->set_status_header(403, 'Server Down');
+                $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 'server down']));
             }
         }
     }
@@ -192,10 +206,11 @@ class Gallery_Controller extends Check_Logged
 
     function delete_image($id)
     {
-        $gallery = $this->gallery->with_file()->where('file_id',$id)->get();
-        if ($gallery->file != null and $this->file->delete($gallery->file->id)) {
-            if (file_exists(getwdir() . 'uploads/' . $gallery->file->file_name)) {
-                unlink(getwdir() . 'uploads/' . $gallery->file->file_name);
+        $portfolio = $this->portfolio_file->with_file()->where('id',$id)->get();
+        if ($portfolio->file != null and $this->file->delete($portfolio->file->id)) {
+            $this->portfolio_file->delete($portfolio->id);
+            if (file_exists(getwdir() . 'uploads/' . $portfolio->file->file_name)) {
+                unlink(getwdir() . 'uploads/' . $portfolio->file->file_name);
             }
             $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Image Delete']));
         }else{
@@ -224,24 +239,24 @@ class Gallery_Controller extends Check_Logged
 
     public function delete($id)
     {
-        $gallery = $this->gallery->with_file()->where('id', $id)->get();
-        if ($gallery) {
-            if ($gallery->file != null) {
-                if ($this->file->delete($gallery->file->id)) {
-                    if (file_exists(getwdir() . 'uploads/' . $gallery->file->file_name)) {
-                        unlink(getwdir() . 'uploads/' . $gallery->file->file_name);
-                        if ($this->gallery->delete($id)) {
-                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Gallery Deleted']));
+        $portfolio = $this->portfolio->with_file()->where('id', $id)->get();
+        if ($portfolio) {
+            if ($portfolio->file != null) {
+                if ($this->file->delete($portfolio->file->id)) {
+                    if (file_exists(getwdir() . 'uploads/' . $portfolio->file->file_name)) {
+                        unlink(getwdir() . 'uploads/' . $portfolio->file->file_name);
+                        if ($this->portfolio->delete($id)) {
+                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio Deleted']));
                         } else {
-                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Gallery not deleted but some files are deleted']));
+                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio not deleted but some files are deleted']));
                         }
                     } else {
-                        $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Gallery file not exist in directory']));
+                        $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio file not exist in directory']));
                     }
                 }
             } else {
-                $this->gallery->delete($id);
-                $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Gallery Deleted']));
+                $this->portfolio->delete($id);
+                $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio Deleted']));
             }
         } else {
             $this->output->set_status_header(500, 'Validation error');

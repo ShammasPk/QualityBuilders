@@ -57,6 +57,11 @@ class Dashboard extends Check_Logged
         $this->load->view('admin/gallery');
     }
 
+    public function portfolio()
+    {
+        $this->load->view('admin/portfolio');
+    }
+
 
     public function verify()
     {

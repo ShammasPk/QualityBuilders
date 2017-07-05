@@ -16,6 +16,10 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
             templateUrl: 'gallery',
             controller: 'galleryController'
         })
+        .when('/portfolio', {
+            templateUrl: 'portfolio',
+            controller: 'portfolioController'
+        })
         .when('/user-profile',{
             templateUrl: 'change'
         })
