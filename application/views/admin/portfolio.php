@@ -33,6 +33,17 @@
                                     <textarea name="description" class="form-control" ng-model="newportfolio.description"></textarea>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Date</label>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="date" uib-datepicker-popup="dd-MMMM-yyyy" ng-model="date" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly show-button-bar="false"/>
+                                              <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                              </span>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label for="" class="control-label col-lg-2">Photo</label>
@@ -165,7 +176,7 @@
                         <tr>
                             <th>#</th>
                             <th>name</th>
-                            <th>Organisation</th>
+                            <th>Date</th>
                             <th>Description</th>
                             <th>Photo</th>
                             <th>Action</th>
@@ -175,7 +186,7 @@
                         <tr dir-paginate="portfolio in portfolios | filter:search | limitTo:pageSize | itemsPerPage:numPerPage">
                             <td>{{$index+1}}</td>
                             <td>{{portfolio.name}}</td>
-                            <td>{{portfolio.organisation}}</td>
+                            <td>{{portfolio.date |date:'dd-MMM-yyyy'}}</td>
                             <td>{{portfolio.description}}</td>
                             <td><a href="{{base_url + 'uploads/' + portfolio.file[0].file_name}}"><img src="{{base_url + 'uploads/' + portfolio.file[0].file_name}}" alt="Thumbnail" width="25px" height="25px"/></a></td>
                             <td>

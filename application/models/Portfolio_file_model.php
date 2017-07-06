@@ -50,6 +50,7 @@ class portfolio_file_model extends MY_Model
                         $val->imgUrl = public_url() . 'uploads/' . $file->file_name;
                     }
                 }
+
                 $value->file = $portfolio_files;
             }
             return $portfolio;

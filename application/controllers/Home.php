@@ -18,14 +18,17 @@ class Home extends CI_Controller
         parent::__construct();
         $this->load->model('Portfolio_model', 'portfolio');
         $this->load->model('Portfolio_file_model', 'portfolio_file');
+        $this->load->model('gallery_model', 'gallery');
     }
 
 
     public function index($page = 'index')
     {
+        $data['gallery'] = $this->_load_gallery();
+        $data['portfolio'] = $this->_load_portfolio(3);
         $this->load->view($this->header,['current' => 'Home']);
         $this->load->view($this->slider);
-        $this->load->view($page);
+        $this->load->view($page, $data);
         $this->load->view($this->footer);
     }
 
@@ -67,7 +70,19 @@ class Home extends CI_Controller
 
     function _load_portfolio($limit="")
     {
-        return $this->portfolio_file->select($limit);
+        $data = $this->portfolio_file->select($limit);
+        foreach ($data as $value) {
+            $timestamp = strtotime($value->date);
+            $value->day = date('d', $timestamp);
+            $value->month = date('M', $timestamp);
+        }
+        return $data;
+    }
+
+    function _load_gallery()
+    {
+        $data = $this->gallery->with_file()->limit(8)->order_by('id','DESC')->get_all();
+        return array_chunk($data, 4);
     }
 
 }

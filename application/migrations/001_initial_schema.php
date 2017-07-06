@@ -134,6 +134,10 @@ class Migration_initial_schema extends CI_Migration
                 'type' => 'VARCHAR',
                 'constraint' => '100',
                 'null' => TRUE
+            ],
+            'date' => [
+                'type' => 'DATE',
+                'null' => TRUE
             ]
         ]);
         $this->dbforge->add_key('id', TRUE);

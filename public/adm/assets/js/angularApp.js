@@ -535,6 +535,7 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
     $rootScope.url = $location.path().replace('/', '');
     $scope.uploaded = [];
     $scope.fileValidation = {};
+    $scope.date = new Date();
 
 
     loadPortfolio();
@@ -565,7 +566,7 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
     };
 
     $scope.editPortfolio = function (item) {
-        console.log(item);
+
         $scope.showform = true;
         $scope.curportfolio = item;
         $scope.newportfolio = angular.copy(item);
@@ -580,8 +581,10 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
 
     $scope.addPortfolio = function () {
         $rootScope.loading = true;
+        console.log($scope.newportfolio);
 
         var fd = new FormData();
+        $scope.newportfolio.date = $filter('date')($scope.date, "yyyy-MM-dd");
 
         angular.forEach($scope.newportfolio, function (item, key) {
             fd.append(key, item);
@@ -602,6 +605,7 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
                     $rootScope.loading = false;
                     $scope.files = '';
                 },function onError(response) {
+                    console.log(response.data);
                     console.log('edit Error :- Status :' + response.status + 'data : ' + response.data);
                     $rootScope.loading = false;
                     $scope.files = '';

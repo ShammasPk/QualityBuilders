@@ -27,7 +27,7 @@
                 <div class="col-md-4">
                     <div class="iconbox-item">
                         <div class="iconbox left style3">   
-                            <img src="images/mission.jpg" alt="serives"> 
+                            <img src="<?php echo base_url();?>images/mission.jpg" alt="serives">
                             <div class="box-content">
                                 <div class="box-title">
                                     <a href="#">OUR VISION</a>
@@ -42,7 +42,7 @@
                 <div class="col-md-4">
                     <div class="iconbox-item">
                         <div class="iconbox left style3">   
-                            <img src="images/Values.png" alt="serives"> 
+                            <img src="<?php echo base_url();?>images/Values.png" alt="serives">
                             <div class="box-content">
                                 <div class="box-title">
                                     <a href="#">OUR VALUES</a>
@@ -75,80 +75,40 @@
                 <div class="col-md-12">
                     <div class="blog-shortcode blog-carosuel-wrap">
                         <div class="blog-carosuel">
-                            <article class="post clearfix">
-                                <div class="featured-post">
-                                    <div class="overlay"></div>
-                                    <img src="images/gallery/p1.jpg" alt="image">
-                                    <ul class="post-comment">
-                                        <li class="date">
-                                            <span class="day"> 11 </span>        
-                                        </li>
-                                        <li class="comment">
-                                            August
-                                        </li>
-                                    </ul><!-- /.post-comment -->
-                                </div><!-- /.feature-post -->
-                                <div class="content-post">
-                                    <h2 class="title-post"><a href="portfolio">Find the Best Construct</a></h2>                          
-                                   
-                                    <div class="entry-post">                              
-                                        <p>Dolor sit consectetuer adipiscing sed diam nonummy nibh euismod tincidunt laoreet dolore<br>
-                                        <span class="more-link"><a href="portfolio">Read More</a></span>
-                                        </p>
-                                    </div>
-                                </div><!-- /.content-post -->
-                            </article>
+                            <?php
+                            if (isset($portfolio) and $portfolio != FALSE) {
+                                foreach ($portfolio as $value1) {
+                                    ?>
+                                    <article class="post clearfix">
+                                        <div class="featured-post">
+                                            <div class="overlay"></div>
+                                            <img src="<?php echo $value1->file[0]->imgUrl;?>" alt="<?php echo $value1->name;?>">
+                                            <ul class="post-comment">
+                                                <li class="date">
+                                                    <span class="day"> <?php echo $value1->day;?> </span>
+                                                </li>
+                                                <li class="comment">
+                                                    <?php echo $value1->month;?>
+                                                </li>
+                                            </ul>
+                                            <!-- /.post-comment -->
+                                        </div>
+                                        <!-- /.feature-post -->
+                                        <div class="content-post">
+                                            <h2 class="title-post"><a href="#"><?php echo $value1->name;?></a></h2>
 
-                            <article class="post clearfix">
-                                <div class="featured-post">
-                                    <div class="overlay"></div>
-                                    <img src="images/gallery/p2.jpg" alt="image">
-                                    <ul class="post-comment">
-                                        <li class="date">
-                                            <span class="day"> 11 </span>        
-                                        </li>
-                                        <li class="comment">
-                                            August
-                                        </li>
-                                    </ul><!-- /.post-comment -->
-                                </div><!-- /.feature-post -->
-                                <div class="content-post">
-                                    <h2 class="title-post"><a href="portfolio">
-                                    Wates to revamp Goldfinger
-                                    </a></h2>                          
-                                   
-                                    <div class="entry-post">                              
-                                        <p>Dolor sit consectetuer adipiscing sed diam nonummy nibh euismod tincidunt laoreet dolore<br>
-                                        <span class="more-link"><a href="portfolio">Read More</a></span>
-                                        </p>
-                                    </div>
-                                </div><!-- /.content-post -->
-                            </article>
-
-                            <article class="post clearfix">
-                                <div class="featured-post">
-                                    <div class="overlay"></div>
-                                    <img src="images/gallery/p3.jpg" alt="image">
-                                    <ul class="post-comment">
-                                        <li class="date">
-                                            <span class="day"> 11 </span>        
-                                        </li>
-                                        <li class="comment">
-                                            August
-                                        </li>
-                                    </ul><!-- /.post-comment -->
-                                </div><!-- /.feature-post -->
-                                <div class="content-post">
-                                    <h2 class="title-post"><a href="portfolio">London office work</a></h2>                          
-                                   
-                                    <div class="entry-post">                              
-                                        <p>Dolor sit consectetuer adipiscing sed diam nonummy nibh euismod tincidunt laoreet dolore<br>
-                                        <span class="more-link"><a href="portfolio">Read More</a></span>
-                                        </p>
-                                    </div>
-                                </div><!-- /.content-post -->
-                            </article>
-                            
+                                            <div class="entry-post">
+                                                <p><?php echo $value1->description;?><br>
+                                                    <span class="more-link"><a href="#">Read More</a></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- /.content-post -->
+                                    </article>
+                                <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -168,115 +128,36 @@
             </div>
         </div> 
 
-        <div class="flat-portfolio v4">             
-            <div class="portfolio-wrap clearfix">
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                              
-                </div><!-- /.portfolio-item -->
+        <div class="flat-portfolio v4">
+            <?php
+            if (isset($gallery) and $gallery != FALSE) {
+                foreach ($gallery as $value) {
+                    ?>
+                    <div class="portfolio-wrap clearfix">
+                        <?php
+                        foreach ($value as $image) {
+                            ?>
+                            <div class="item">
+                                <div class="featured-images">
+                                    <img src="<?php echo base_url() . 'uploads/' . $image->file->file_name;?>" alt="<?php echo $image->name;?>">
 
-                <div class="item">                               
-                    <div class="featured-images">
-                        <img src="images/gallery/s2.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s2.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                                  
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s3.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s3.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                   
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                     
-                </div><!-- /.portfolio-item -->
-                
-            </div><!-- /.portfolio-wrap -->
-            <div class="portfolio-wrap clearfix">
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                              
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                               
-                    <div class="featured-images">
-                        <img src="images/gallery/s2.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s2.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                                  
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s3.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s3.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                   
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                     
-                </div><!-- /.portfolio-item -->
-                
-            </div><!-- /.portfolio-wrap -->
+                                    <div class="overlay">
+                                        <ul class="portfolio-details">
+                                            <li><a class="popup-gallery" href="<?php echo base_url() . 'uploads/' . $image->file->file_name;?>">
+                                                    <i class="fa fa-search"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.featured-images -->
+                            </div>
+                        <?php
+                        }?>
+                        <!-- /.portfolio-item -->
+                    </div><!-- /.portfolio-wrap -->
+                <?php
+                }
+            }?>
 
         </div><!-- /.flat-portfolio --> 
     </section>  
