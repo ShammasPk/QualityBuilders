@@ -24,117 +24,38 @@
     <!-- gallery -->
     <section class="flat-row gallery" id="work">  
 
-        <div class="flat-portfolio v4">             
-            <div class="portfolio-wrap clearfix">
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                              
-                </div><!-- /.portfolio-item -->
+        <div class="flat-portfolio v4">
+            <?php
+            if (isset($gallery) and $gallery != FALSE) {
+                foreach ($gallery as $value) {
+                    ?>
+                    <div class="portfolio-wrap clearfix">
+                        <?php
+                        foreach ($value as $image) {
+                            ?>
+                            <div class="item">
+                                <div class="featured-images">
+                                    <img src="<?php echo base_url() . 'uploads/' . $image->file->file_name;?>" alt="<?php echo $image->name;?>">
 
-                <div class="item">                               
-                    <div class="featured-images">
-                        <img src="images/gallery/s2.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s2.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                                  
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s3.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s3.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                   
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                     
-                </div><!-- /.portfolio-item -->
-                
-            </div><!-- /.portfolio-wrap -->
-            <div class="portfolio-wrap clearfix">
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                              
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                               
-                    <div class="featured-images">
-                        <img src="images/gallery/s2.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s2.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                       
-                    </div><!-- /.featured-images -->                                                  
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s3.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s3.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                   
-                </div><!-- /.portfolio-item -->
-
-                <div class="item">                                
-                    <div class="featured-images">
-                        <img src="images/gallery/s1.jpg" alt="images">
-                        <div class="overlay">  
-                            <ul class="portfolio-details">
-                                <li><a class="popup-gallery" href="images/gallery/s1.jpg">
-                                    <i class="fa fa-search"></i></a>
-                                </li>
-                            </ul>                      
-                        </div>                         
-                    </div><!-- /.featured-images -->                     
-                </div><!-- /.portfolio-item -->
-                
-            </div><!-- /.portfolio-wrap -->
-
-        </div><!-- /.flat-portfolio --> 
+                                    <div class="overlay">
+                                        <ul class="portfolio-details">
+                                            <li><a class="popup-gallery" href="<?php echo base_url() . 'uploads/' . $image->file->file_name;?>">
+                                                    <i class="fa fa-search"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!-- /.featured-images -->
+                            </div>
+                        <?php
+                        }?>
+                        <!-- /.portfolio-item -->
+                    </div><!-- /.portfolio-wrap -->
+                <?php
+                }
+            }?>
+            <!-- /.portfolio-wrap -->
+        </div><!-- /.flat-portfolio -->
     </section>    
 
     

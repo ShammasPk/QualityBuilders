@@ -1,4 +1,4 @@
-
+\
             
     <!-- Page title -->
     <div class="page-title" style="background-image: url('images/3.png');background-repeat: repeat;">
@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form id="contactform" class="flat-contact-form style2 bg-dark height-small" method="post" action="./contact/contact-process.php">
+                    <form id="contactformsecond" class="flat-contact-form style2 bg-dark height-small" method="post" action="<?php echo base_url('send-comment')?>">
                         <div class="field clearfix">      
                             <div class="wrap-type-input">                    
                                 <div class="input-wrap name">
@@ -41,6 +41,14 @@
                         </div>
                         <div class="submit-wrap">
                             <button class="flat-button bg-theme">Send Your Message</button>
+                        </div>
+                        <div id="comment-alert-success" class="alert alert-success hide">
+                            <i class="fa fa-check-circle-o fa-2x"></i>
+                            We will contact you soon
+                        </div>
+                        <div id="comment-alert-error" class="alert alert-danger hide">
+                            <i class="fa fa-check-circle-o fa-2x"></i>
+                            Oops! Something went wrong.
                         </div>
                     </form><!-- /.comment-form -->         
                 </div><!-- /.col-md-12-->                 
@@ -68,3 +76,21 @@
     <script type="text/javascript" src="javascript/gmap3.min.js"></script>
     
     <script type="text/javascript" src="javascript/main.js"></script>
+<script>
+    $('#contactformsecond').submit(function (e) {
+        e.preventDefault();
+        $.post($(this).prop('action'), $(this).serialize())
+            .done(function (response) {
+                $('#contactformsecond')[0].reset();
+                $('#comment-alert-success').removeClass('hide');
+                $("#comment-alert-success").delay(4).fadeIn();
+                $("#comment-alert-success").delay(4000).fadeOut();
+            })
+            .fail(function (response) {
+                $('#contactformsecond')[0].reset();
+                $('#comment-alert-error').removeClass('hide');
+                $("#comment-alert-error").delay(4).fadeIn();
+                $("#comment-alert-error").delay(4000).fadeOut();
+            })
+    });
+</script>

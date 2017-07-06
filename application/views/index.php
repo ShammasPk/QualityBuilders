@@ -164,7 +164,7 @@
 
     <!-- get qoute -->
     <div class="flat-row map" id="quote">
-        <form id="contactform" class="flat-contact-form  inner-map style2 bg-dark height-small" method="post" action="#">
+        <form id="contactform" class="flat-contact-form  inner-map style2 bg-dark height-small" method="post" action="<?php echo base_url('send-message')?>">
             <div class="field clearfix">      
                 <div class="wrap-type-input">                    
                     <div class="input-wrap name">

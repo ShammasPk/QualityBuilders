@@ -58,6 +58,8 @@ $route['portfolio'] = 'Home/portfolio';
 $route['portfolioDetails'] = 'Home/portfolioDetails';
 $route['moments'] = 'Home/moments';
 $route['contact'] = 'Home/contact';
+$route['send-message'] = 'Home/send_message';
+$route['send-comment'] = 'Home/send_comment';
 /*_______ public route End _______*/
 
 /*_______ admin route start _______*/

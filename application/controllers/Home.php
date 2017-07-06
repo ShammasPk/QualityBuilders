@@ -42,6 +42,7 @@ class Home extends CI_Controller
     public function portfolio($page = 'portfolio')
     {
         $data['portfolio'] = $this->_load_portfolio();
+
         $this->load->view($this->header,['current' => 'Portfolio']);
         $this->load->view($page, $data);
         $this->load->view($this->footer);
@@ -56,8 +57,9 @@ class Home extends CI_Controller
 
     public function moments($page = 'moments')
     {
+        $data['gallery'] = $this->_load_gallery();
         $this->load->view($this->header,['current' => 'Moments']);
-        $this->load->view($page);
+        $this->load->view($page, $data);
         $this->load->view($this->footer);
     }
 
@@ -79,10 +81,89 @@ class Home extends CI_Controller
         return $data;
     }
 
-    function _load_gallery()
+    function _load_gallery($limit="")
     {
-        $data = $this->gallery->with_file()->limit(8)->order_by('id','DESC')->get_all();
+        if ($limit != "") {
+            $data = $this->gallery->with_file()->limit(8)->order_by('id','DESC')->get_all();
+        } else {
+            $data = $this->gallery->with_file()->order_by('id','DESC')->get_all();
+        }
         return array_chunk($data, 4);
     }
+
+    function send_message()
+    {
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('phone', 'Email', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->output->set_status_header(400, 'Validation error');
+        } else {
+            $name = $this->input->post('name');
+            $place = $this->input->post('place');
+            $phone = $this->input->post('phone');
+            $email = $this->input->post('email');
+            $comments = $this->input->post('message');
+
+            $comments = wordwrap($comments, 70, "<br>");
+            $subject = 'Comments from : ' . $name;
+
+            $message = 'name  :  ' . $name . PHP_EOL . PHP_EOL;
+            $message .= 'Place  :  ' . $place . PHP_EOL . PHP_EOL;
+            $message .= 'Phone  :   ' . $phone . PHP_EOL . PHP_EOL;
+            $message .= 'comments from  :   ' . $email . PHP_EOL . PHP_EOL;
+            $message .= 'Comments   :   ' . $comments . PHP_EOL . PHP_EOL;
+
+            $message = str_replace("\n.", "\n..", $message);
+
+            $to = 'info@accountsandtaxd.in';
+
+            $headers = 'From: comments@accountsandtax.in';
+
+            if (mail($to, $subject, $message, $headers)) {
+                $this->output->set_output('success');
+            } else {
+//                $this->output->set_status_header(101, 'Mail server connect error');
+                $this->output->set_output('error');
+            }
+        }
+    }
+
+
+    function send_comment()
+    {
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->output->set_status_header(400, 'Validation error');
+        } else {
+            $name = $this->input->post('name');
+            $email = $this->input->post('email');
+            $comments = $this->input->post('message');
+
+            $comments = wordwrap($comments, 70, "<br>");
+            $subject = 'Comments from : ' . $name;
+
+            $message = 'name  :  ' . $name . PHP_EOL . PHP_EOL;
+            $message .= 'comments from  :   ' . $email . PHP_EOL . PHP_EOL;
+            $message .= 'Comments   :   ' . $comments . PHP_EOL . PHP_EOL;
+
+            $message = str_replace("\n.", "\n..", $message);
+
+            $to = 'info@accountsandtaxd.in';
+
+            $headers = 'From: comments@accountsandtax.in';
+
+            if (mail($to, $subject, $message, $headers)) {
+                $this->output->set_output('success');
+            } else {
+                $this->output->set_status_header(101, 'Mail server connect error');
+                $this->output->set_output('error');
+            }
+        }
+    }
+
 
 }
