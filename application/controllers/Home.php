@@ -21,6 +21,10 @@ class Home extends CI_Controller
         $this->load->model('gallery_model', 'gallery');
     }
 
+    public function login()
+    {
+        $this->load->view('login');
+    }
 
     public function index($page = 'index')
     {

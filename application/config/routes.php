@@ -64,6 +64,10 @@ $route['send-comment'] = 'Home/send_comment';
 
 /*_______ admin route start _______*/
 
+$route['login'] = 'Home/login';
+$route['login/verify'] = 'Dashboard/verify';
+$route['logout'] = 'Dashboard/logout';
+
 $route['admin'] = 'Dashboard';
 
 $route['admin/gallery'] = 'Dashboard/gallery';
