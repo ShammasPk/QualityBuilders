@@ -38,6 +38,9 @@ class Migration_initial_schema extends CI_Migration
 
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('users');
+        /*Insert initial data*/
+        $this->db->insert('users', ['username' => 'admin', 'password' => hash('sha256', 'admin')]);
+
 
 
        /*///////////////////////////////////////////////////////////////////

@@ -139,7 +139,7 @@
                         },
                         success: function( msg ) {
                             var result, cls;                            
-                            if ( msg == 'Success' ) {                                
+                            if ( msg == 'success' ) {
                                 result = 'We will contact you soon';
                                 cls = 'msg-success';
                             } else {

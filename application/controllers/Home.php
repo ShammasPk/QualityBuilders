@@ -73,10 +73,12 @@ class Home extends CI_Controller
     function _load_portfolio($limit="")
     {
         $data = $this->portfolio_file->select($limit);
-        foreach ($data as $value) {
-            $timestamp = strtotime($value->date);
-            $value->day = date('d', $timestamp);
-            $value->month = date('M', $timestamp);
+        if ($data != FALSE) {
+            foreach ($data as $value) {
+                $timestamp = strtotime($value->date);
+                $value->day = date('d', $timestamp);
+                $value->month = date('M', $timestamp);
+            }
         }
         return $data;
     }
@@ -88,7 +90,10 @@ class Home extends CI_Controller
         } else {
             $data = $this->gallery->with_file()->order_by('id','DESC')->get_all();
         }
-        return array_chunk($data, 4);
+        if ($data != false) {
+            return array_chunk($data, 4);
+        }else
+            return $data;
     }
 
     function send_message()
