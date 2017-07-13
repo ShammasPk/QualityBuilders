@@ -566,7 +566,7 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
     };
 
     $scope.editPortfolio = function (item) {
-
+        $scope.item_files = [];
         $scope.showform = true;
         $scope.curportfolio = item;
         $scope.newportfolio = angular.copy(item);
@@ -603,12 +603,12 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
                     $scope.newportfolio = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
-                    $scope.files = '';
+                    $scope.files = [];
                 },function onError(response) {
                     console.log(response.data);
                     console.log('edit Error :- Status :' + response.status + 'data : ' + response.data);
                     $rootScope.loading = false;
-                    $scope.files = '';
+                    $scope.files = [];
                 });
         } else {
             var url = $rootScope.base_url + 'admin/portfolio/add';
@@ -622,13 +622,13 @@ app.controller('portfolioController', ['$scope', '$http', '$rootScope', '$locati
                     $scope.newportfolio = {};
                     $scope.showform = false;
                     $rootScope.loading = false;
-                    $scope.files = '';
+                    $scope.files = [];
 
                 }, function onError(response) {
                     console.log('addError :- Status :' + response.status + 'data : ' + response.data);
                     console.log(response.data);
                     $rootScope.loading = false;
-                    $scope.files = '';
+                    $scope.files = [];
 
                     if (response.status == 403) {
                         $scope.fileValidation.status = true;

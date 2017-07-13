@@ -134,8 +134,27 @@ class Migration_initial_schema extends CI_Migration
                 'null' => TRUE
             ],
             'description' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
+                'type' => 'LONGTEXT',
+                'null' => TRUE
+            ],
+            'location' => [
+                'type' => 'LONGTEXT',
+                'null' => TRUE
+            ],
+            'surface_area' => [
+                'type' => 'LONGTEXT',
+                'null' => TRUE
+            ],
+            'investor' => [
+                'type' => 'LONGTEXT',
+                'null' => TRUE
+            ],
+            'coast' => [
+                'type' => 'LONGTEXT',
+                'null' => TRUE
+            ],
+            'category' => [
+                'type' => 'LONGTEXT',
                 'null' => TRUE
             ],
             'date' => [

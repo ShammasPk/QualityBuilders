@@ -53,10 +53,9 @@ class Portfolio_Controller extends Check_Logged
             $uploaded = json_decode($post_data['uploaded']);
             unset($post_data['uploaded']);
 
-            $portfolio_id = $this->portfolio->insert($post_data);
-
-            if ($portfolio_id) {
-                if (!empty($uploaded) ) {
+//            if ($portfolio_id) {
+            if (!empty($uploaded) ) {
+                    $portfolio_id = $this->portfolio->insert($post_data);
                     /*INSERT FILE DATA TO DB*/
                     foreach ($uploaded as $value) {
                         $file_data['file_name'] = $value->file_name;
@@ -119,7 +118,7 @@ class Portfolio_Controller extends Check_Logged
                     $this->output->set_content_type('application/json')->set_output(json_encode(['validation_error' => 'Please select images.']));
                 }
 
-            }
+//            }
 
         }
     }
@@ -206,11 +205,11 @@ class Portfolio_Controller extends Check_Logged
 
     function delete_image($id)
     {
-        $portfolio = $this->portfolio_file->with_file()->where('id',$id)->get();
-        if ($portfolio->file != null and $this->file->delete($portfolio->file->id)) {
-            $this->portfolio_file->delete($portfolio->id);
-            if (file_exists(getwdir() . 'uploads/' . $portfolio->file->file_name)) {
-                unlink(getwdir() . 'uploads/' . $portfolio->file->file_name);
+        $portfolio_file = $this->portfolio_file->with_file()->where('id',$id)->get();
+        if ($portfolio_file->file != null and $this->file->delete($portfolio_file->file->id)) {
+            $this->portfolio_file->delete($portfolio_file->id);
+            if (file_exists(getwdir() . 'uploads/' . $portfolio_file->file->file_name)) {
+                unlink(getwdir() . 'uploads/' . $portfolio_file->file->file_name);
             }
             $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Image Delete']));
         }else{
@@ -239,20 +238,20 @@ class Portfolio_Controller extends Check_Logged
 
     public function delete($id)
     {
-        $portfolio = $this->portfolio->with_file()->where('id', $id)->get();
+        $portfolio = $this->portfolio_file->select_where(['id' => $id]);
         if ($portfolio) {
-            if ($portfolio->file != null) {
-                if ($this->file->delete($portfolio->file->id)) {
-                    if (file_exists(getwdir() . 'uploads/' . $portfolio->file->file_name)) {
-                        unlink(getwdir() . 'uploads/' . $portfolio->file->file_name);
-                        if ($this->portfolio->delete($id)) {
-                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio Deleted']));
-                        } else {
-                            $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio not deleted but some files are deleted']));
+            if (empty($portfolio[0]->file) == false) {
+                foreach ($portfolio[0]->file as $image) {
+                    if ($this->file->delete($image->id)) {
+                        if (file_exists(getwdir() . 'uploads/' . $image->file_name)) {
+                            unlink(getwdir() . 'uploads/' . $image->file_name);
                         }
-                    } else {
-                        $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio file not exist in directory']));
                     }
+                }
+                if ($this->portfolio->delete($id)) {
+                    $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio Deleted']));
+                } else {
+                    $this->output->set_content_type('application/json')->set_output(json_encode(['msg' => 'Portfolio not deleted but some files are deleted']));
                 }
             } else {
                 $this->portfolio->delete($id);

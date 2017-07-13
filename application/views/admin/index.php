@@ -21,8 +21,8 @@
 
     <link href="<?php echo base_url();?>adm/assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
     <!-- Angular Module-->
-    <script src="<?php echo base_url();?>adm/assets/js/angular-bootstrap.js"></script>
-    <script src="<?php echo base_url();?>adm/assets/js/angularApp.js"></script>
+    <script src="<?php echo base_url();?>adm/assets/js/angular-bootstrap.min.js"></script>
+    <script src="<?php echo base_url();?>adm/assets/js/angularApp.min.js"></script>
 </head>
 
 <body ng-app="myApp" ng-controller="adminController">

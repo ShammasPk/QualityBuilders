@@ -52,10 +52,19 @@ class Home extends CI_Controller
         $this->load->view($this->footer);
     }
 
-    public function portfolioDetails($page = 'portfolioDetails')
+    public function portfolioDetails($id)
     {
+        $page = 'portfolioDetails';
+        $data['portfolio'] = $this->portfolio_file->select_where(['id' => $id]);
+        if ($data['portfolio'] != FALSE) {
+            foreach ($data['portfolio'] as $value) {
+                $timestamp = strtotime($value->date);
+                $value->day = date('d', $timestamp);
+                $value->month = date('M', $timestamp);
+            }
+        }
         $this->load->view($this->header,['current' => 'Portfolio']);
-        $this->load->view($page);
+        $this->load->view($page, $data);
         $this->load->view($this->footer);
     }
 

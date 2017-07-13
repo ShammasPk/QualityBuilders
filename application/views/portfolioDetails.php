@@ -1,7 +1,9 @@
+<?php
 
+?>
             
     <!-- Page title -->
-    <div class="page-title" style="background-image: url('images/banner-about.png');">
+    <div class="page-title" style="background-image: url('<?php echo base_url();?>images/banner-about.png');">
         <div class="overlay"></div>
         <div class="container">
             <div class="row">
@@ -20,7 +22,9 @@
             </div><!-- /.row -->  
         </div><!-- /.container -->                      
     </div><!-- /.page-title --> 
-
+<?php
+if ($portfolio != FALSE) {
+    ?>
     <!-- Work Detail -->
     <section class="main-content page-single page-about">
         <div class="container">
@@ -30,22 +34,25 @@
                         <div class="featured-post flat-blog-slider">
                             <div class="flexslider">
                                 <ul class="slides">
-                                    <li>
-                                        <img src="images/3.jpg" alt="image">
-                                    </li>
-                                    <li>
-                                        <img src="images/4.jpg" alt="image">
-                                    </li>
+                                    <?php if (isset($portfolio) and $portfolio != FALSE) {
+                                        foreach ($portfolio[0]->file as $image) {
+                                            ?>
+                                            <li>
+                                                <img src="<?php echo $image->imgUrl; ?>" alt="image">
+                                            </li>
+                                        <?php
+                                        }
+                                    }?>
                                 </ul>
-                            </div>                            
-                        </div><!-- /.feature-post -->
+                            </div>
+                        </div>
+                        <!-- /.feature-post -->
 
                         <div class="about-content-text">
-                            <h4 class="about-content-title">PORTFOLIO NAME</h4>
+                            <h4 class="about-content-title"><?php echo $portfolio[0]->name ?></h4>
 
-                            <p><h6>The standard Lorem Ipsum passage, used since the 1500s</h6></p>
-
-                            <p>sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt</p>
+                            <!--                            <p><h6>The standard Lorem Ipsum passage, used since the 1500s</h6></p>-->
+                            <p><?php echo $portfolio[0]->description ?></p>
                         </div>
                     </div>
                 </div>
@@ -53,48 +60,58 @@
                 <div class="page-sidebar">
                     <div class="sidebar">
                         <div class="title-section">
-                            <h1 class="title">Project Details</h1>                                  
-                        </div>                        
-                        <ul class="entry-details-content">                            
+                            <h1 class="title">Project Details</h1>
+                        </div>
+                        <ul class="entry-details-content">
                             <li class="date">
                                 <strong>Date</strong>
-                                <p>05/18/2017</p>
+
+                                <p><?php echo $portfolio[0]->date; ?></p>
                             </li>
 
                             <li class="location">
                                 <strong>Location</strong>
-                                <p>New York, NY</p>
+
+                                <p><?php echo $portfolio[0]->location; ?></p>
                             </li>
-                            
+
                             <li class="surface-area">
                                 <strong>Surface Area</strong>
-                                <p>1345 m2</p>
+
+                                <p><?php echo $portfolio[0]->surface_area; ?></p>
                             </li>
-                            
+
                             <li class="investor">
                                 <strong>Construction Investor</strong>
-                                <p>Private owner</p>
+
+                                <p><?php echo $portfolio[0]->investor; ?></p>
                             </li>
-                            
+
                             <li class="value">
                                 <strong>Value</strong>
-                                <p>$112,000</p>
+
+                                <p><?php echo $portfolio[0]->coast; ?></p>
                             </li>
-                            
+
                             <li class="categories">
                                 <strong>Categories:</strong>
-                                <p><a href="#" rel="tag">Green Home</a></p>
+
+                                <p><a href="#" rel="tag"><?php echo $portfolio[0]->category; ?></a></p>
                             </li>
-                                                        
+
                             <li class="tags">
                                 <strong>Tags:</strong>
-                                <p><a href="#" rel="tag">Building</a></p>
+
+                                <p><a href="#" rel="tag"><?php echo $portfolio[0]->category; ?></a></p>
                             </li>
                         </ul>
                     </div>
-                </div>              
-            </div><!-- /.row -->           
-        </div><!-- /.container -->   
-    </section> 
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+<?php
+}?>
 
-    

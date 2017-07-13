@@ -57,4 +57,43 @@ class portfolio_file_model extends MY_Model
         }else
             return FALSE;
     }
+    public function select_where(array $where,$limit="", $order="")
+    {
+        $this->db->from('portfolios');
+        $this->db->where($where);
+        if ($limit != null) {
+            $this->db->limit($limit);
+        }
+        if ($order != null) {
+            $this->db->order_by('id', 'DESC');
+        }
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $portfolio = $query->result();
+            foreach ($portfolio as $value) {
+                $this->db->from('portfolio_files');
+                $this->db->where('portfolio_id', $value->id);
+                $query1 = $this->db->get();
+                $portfolio_files = $query1->result();
+                foreach ($portfolio_files as $val) {
+                    $this->db->from('files');
+                    $this->db->where('id', $val->file_id);
+                    $files_query = $this->db->get();
+                    $files = $files_query->result();
+                    foreach ($files as $file) {
+                        $val->file_name = $file->file_name;
+                        $val->file_type = $file->file_type;
+                        $val->portfolio_file_id = $val->id;
+                        $val->thumbImgUrl = public_url() . 'uploads/thumb/thumb_' . $file->file_name;
+                        $val->imgUrl = public_url() . 'uploads/' . $file->file_name;
+                    }
+                }
+
+                $value->file = $portfolio_files;
+            }
+            return $portfolio;
+        }else
+            return FALSE;
+    }
+
 }

@@ -28,6 +28,36 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Location</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form-control" ng-model="newportfolio.location"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Surface area</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form-control" ng-model="newportfolio.surface_area"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Investor</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form-control" ng-model="newportfolio.investor"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Category</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form-control" ng-model="newportfolio.category"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-lg-2">Coast</label>
+                                <div class="col-lg-6">
+                                    <input type="text" name="name" class="form-control" ng-model="newportfolio.coast"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label for="" class="control-label col-lg-2">Description</label>
                                 <div class="col-lg-6">
                                     <textarea name="description" class="form-control" ng-model="newportfolio.description"></textarea>
@@ -177,7 +207,12 @@
                             <th>#</th>
                             <th>name</th>
                             <th>Date</th>
+                            <th>location</th>
+                            <th>Area</th>
+                            <th>Investor</th>
+                            <th>Category</th>
                             <th>Description</th>
+                            <th>Coast</th>
                             <th>Photo</th>
                             <th>Action</th>
                         </tr>
@@ -187,6 +222,11 @@
                             <td>{{$index+1}}</td>
                             <td>{{portfolio.name}}</td>
                             <td>{{portfolio.date |date:'dd-MMM-yyyy'}}</td>
+                            <td>{{portfolio.location}}</td>
+                            <td>{{portfolio.surface_area}}</td>
+                            <td>{{portfolio.investor}}</td>
+                            <td>{{portfolio.category}}</td>
+                            <td>{{portfolio.coast}}</td>
                             <td>{{portfolio.description}}</td>
                             <td><a href="{{base_url + 'uploads/' + portfolio.file[0].file_name}}"><img src="{{base_url + 'uploads/' + portfolio.file[0].file_name}}" alt="Thumbnail" width="25px" height="25px"/></a></td>
                             <td>
