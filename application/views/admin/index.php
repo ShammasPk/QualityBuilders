@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ICA -Dashboard</title>
+    <title>Quality builder -Dashboard</title>
     <!-- Bootstrap Styles-->
     <link href="<?php echo base_url();?>adm/assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><strong>bluebox</strong></a>
+            <a class="navbar-brand" href="index.html"><strong>Quality Builder</strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
