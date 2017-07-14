@@ -23,6 +23,10 @@ class Home extends CI_Controller
 
     public function login()
     {
+        if ($this->session->userdata('logged_in') == TRUE) {
+            redirect(base_url('admin'));
+            exit;
+        }
         $this->load->view('login');
     }
 

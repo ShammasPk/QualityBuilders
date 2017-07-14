@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>ICA -login</title>
-    <script src="<?php echo public_url() . 'adm/assets/js/angular-bootstrap.min.js' ?>"></script>
-    <script src="<?php echo public_url() . 'adm/assets/js/angularApp.min.js' ?>"></script>
+<!--    <script src="--><?php //echo public_url() . 'adm/assets/js/angular-bootstrap.min.js' ?><!--"></script>-->
+<!--    <script src="--><?php //echo public_url() . 'adm/assets/js/angularApp.min.js' ?><!--"></script>-->
     <style>
 
         /* 'Open Sans' font from Google Fonts */
@@ -99,19 +99,27 @@
         }
     </style>
 </head>
-<body ng-controller="adminController">
+<!--<body ng-controller="adminController">-->
+<body>
 
 <div class="login">
     <div class="login-triangle"></div>
 
     <h2 class="login-header">Log in</h2>
 
-    <form class="login-container" name="loginform" method="POST" ng-submit="login()">
+<!--    <form class="login-container" name="loginform" method="POST" ng-submit="login()">-->
+<!--    <form class="login-container" name="loginform" method="POST" action="--><?php //echo base_url('login/verify');?><!--">-->
+        <?php
+        echo form_open(base_url('login/verify'),['class' =>'login-container','name' =>'loginform','method' =>'POST'])
+        ?>
         <p><input type="text" placeholder="Username" name="username" ng-model="user.username"></p>
         <p><input type="password" placeholder="Password" name="password" ng-model="user.password"></p>
         <p><input type="submit" value="Log in"></p>
-        <div class="error" ng-show="showerror">
-            {{error.error}}
+<!--        <div class="error" ng-show="showerror">-->
+<!--            {{error.error}}-->
+<!--        </div>-->
+        <div class="error">
+            <?php echo (isset($error) ? $error : '');?>
         </div>
     </form>
 </div>

@@ -25,7 +25,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <form id="contactformsecond" class="flat-contact-form style2 bg-dark height-small" method="post" action="<?php echo base_url('send-comment')?>">
+<!--                    <form id="contactformsecond" class="flat-contact-form style2 bg-dark height-small" method="post" action="--><?php //echo base_url('send-comment')?><!--">-->
+                        <?php echo form_open(base_url('send-comment'), ['class' => 'flat-contact-form style2 bg-dark height-small', 'name' => 'contactformsecond','id' => 'contactformsecond', 'method' => 'POST']); ?>
                         <div class="field clearfix">      
                             <div class="wrap-type-input">                    
                                 <div class="input-wrap name">

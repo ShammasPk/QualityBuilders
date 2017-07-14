@@ -87,10 +87,12 @@ class Dashboard extends Check_Logged
                     'logged' => true,
                 ];
                 $this->session->set_userdata('logged_in', $login_data);
-                $this->output->set_content_type('application/json')->set_output(json_encode($login_data));
+//                $this->output->set_content_type('application/json')->set_output(json_encode($login_data));
+                redirect(base_url('admin/#/'));
             } else {
                 $this->output->set_status_header(400, 'Unauthorised access');
-                $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 'invalid username or password']));
+//                $this->output->set_content_type('application/json')->set_output(json_encode(['error' => 'invalid username or password']));
+                $this->load->view('login', ['error' => 'Invalid username or password']);
             }
         }
     }
