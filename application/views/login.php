@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="myApp" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>ICA -login</title>
+    <title>Quality builders -login</title>
 <!--    <script src="--><?php //echo public_url() . 'adm/assets/js/angular-bootstrap.min.js' ?><!--"></script>-->
 <!--    <script src="--><?php //echo public_url() . 'adm/assets/js/angularApp.min.js' ?><!--"></script>-->
     <style>
@@ -122,6 +122,7 @@
             <?php echo (isset($error) ? $error : '');?>
         </div>
     </form>
+<!--    --><?php //form_close();?>
 </div>
 
 </body>

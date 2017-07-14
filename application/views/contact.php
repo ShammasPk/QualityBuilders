@@ -51,7 +51,7 @@
                             <i class="fa fa-check-circle-o fa-2x"></i>
                             Oops! Something went wrong.
                         </div>
-                    </form><!-- /.comment-form -->         
+                    </form><!-- /.comment-form -->
                 </div><!-- /.col-md-12-->                 
             </div><!-- /.row -->           
         </div><!-- /.container -->   
